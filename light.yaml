@@ -1,0 +1,130 @@
+blueprint:
+  name: Light on/off
+  description: Turn Light on/off based in time periods and state of the sun
+  domain: automation
+  input:
+    switch_relay:
+      name: Switch relay
+      description: The relay the switch controls
+      selector:
+        entity:
+          domain: switch
+          device_class: outlet
+    switch_light:
+      name: Switch light
+      description: The switch builtin green LED
+      selector:
+        target:
+          entity:
+            domain: light
+
+trigger:
+  - platform: state
+    entity_id: !input switch_relay
+    id: switch_relay
+
+action:
+  - choose:
+    - conditon: trigger
+      id: switch_relay
+      sequence:
+        - service: >
+            {% if states.switch.r235_relay.state == 'on' %}
+              light.turn_on
+            {% else %}
+              light.turn_off
+            {% endif %}
+          target: !input switch_light
+##################################
+#
+#alias: r235_offline
+#trigger:
+#  - platform: homeassistant
+#    event: start
+#  - platform: state
+#    entity_id:
+#      - sensor.r235_uptime
+#      - sensor.r235_relay
+#action:
+#  - service_template: >
+#      {% if is_state('sensor.r235_uptime', 'unavailable') or
+#            is_state('sensor.r235_relay', 'unavailable') or
+#            (as_timestamp(now())-as_timestamp(states.sensor.r235_uptime.last_changed))|int > 180
+#      %}
+#      input_boolean.turn_on
+#      {% else %}
+#      input_boolean.turn_off
+#      {% endif %}
+#    data:
+#      entity_id: input_boolean.r235_offline
+#
+#
+#alias: r235_off
+#trigger:
+#  - platform: template
+#    value_template: >
+#      {{ states.input_boolean.r235_time1.state == 'on' and
+#         states.sensor.time.state == (states.input_datetime.r235_time1off.attributes.timestamp | int | timestamp_custom('%H:%M', False))
+#      }}
+#  - platform: template
+#    value_template: >
+#      {{ states.input_boolean.r235_time2.state == 'on' and
+#         states.sensor.time.state == (states.input_datetime.r235_time2off.attributes.timestamp | int | timestamp_custom('%H:%M', False))
+#      }}
+#  - platform: template
+#    value_template: >
+#      {{ states.input_boolean.r235_auto.state == 'on' and
+#         states.sun.sun.state == 'above_horizon'
+#      }}
+#  - platform: template
+#    value_template: >
+#      {{ states.input_boolean.r235_auto.state == 'on' and
+#         states.sun.sun.state == 'below_horizon' and
+#         states.sensor.time.state == (states.input_datetime.r235_sunset.attributes.timestamp | int | timestamp_custom('%H:%M', False))
+#      }}
+#  - platform: state
+#    entity_id: input_boolean.r235
+#    to: 'off'
+#action:
+#  - service: switch.turn_off
+#    data:
+#      entity_id: switch.r235_relay
+#  - service: input_boolean.turn_off
+#    data:
+#      entity_id: input_boolean.r235
+#
+#
+#alias: r235_on
+#trigger:
+#  - platform: template
+#    value_template: >
+#      {{ states.input_boolean.r235_time1.state == 'on' and
+#         states.sensor.time.state == (states.input_datetime.r235_time1on.attributes.timestamp | int | timestamp_custom('%H:%M', False))
+#      }}
+#  - platform: template
+#    value_template: >
+#      {{ states.input_boolean.r235_time2.state == 'on' and
+#         states.sensor.time.state == (states.input_datetime.r235_time2on.attributes.timestamp | int | timestamp_custom('%H:%M', False))
+#      }}
+#  - platform: template
+#    value_template: >
+#      {{ states.input_boolean.r235_auto.state == 'on' and
+#         states.sun.sun.state == 'below_horizon' and
+#         states.sensor.time.state == (states.input_datetime.r235_sunrise.attributes.timestamp | int | timestamp_custom('%H:%M', False))
+#      }}
+#  - platform: template
+#    value_template: >
+#      {{ states.input_boolean.r235_auto.state == 'on' and
+#         states.sun.sun.state == 'below_horizon'
+#      }}
+#  - platform: state
+#    entity_id: input_boolean.r235
+#    to: 'on'
+#action:
+#  - service: switch.turn_on
+#    data:
+#      entity_id: switch.r235_relay
+#  - service: input_boolean.turn_on
+#    data:
+#      entity_id: input_boolean.r235
+#
