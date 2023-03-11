@@ -17,11 +17,10 @@ blueprint:
         entity:
           domain: light
 
-automation:
-  trigger:
-    - platform: state
-      entity_id: !input switch_relay
-      id: switch_relay
+trigger:
+  - platform: state
+    entity_id: !input switch_relay
+    id: switch_relay
 
 action:
   - choose:
@@ -35,6 +34,8 @@ action:
               light.turn_off
             {% endif %}
           target: !input switch_light
+          message: Switch light
+          
 ##################################
 #
 #alias: r235_offline
