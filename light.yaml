@@ -17,10 +17,11 @@ blueprint:
         entity:
           domain: light
 
-trigger:
-  - platform: state
-    entity_id: !input switch_relay
-    id: switch_relay
+automation:
+  trigger:
+    - platform: state
+      entity_id: !input switch_relay
+      id: switch_relay
 
 action:
   - choose:
