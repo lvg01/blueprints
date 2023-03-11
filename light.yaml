@@ -24,17 +24,18 @@ trigger:
 
 action:
   - choose:
-    - conditon: trigger
-      id: switch_relay
+    - conditions:
+      - conditon: trigger
+        id: switch_relay
       sequence:
-        - service: >
-            {% if states.switch.r235_relay.state == 'on' %}
-              light.turn_on
-            {% else %}
-              light.turn_off
-            {% endif %}
-          target: !input switch_light
-          message: Switch light
+        service: >
+          {% if states.switch.r235_relay.state == 'on' %}
+            light.turn_on
+          {% else %}
+            light.turn_off
+          {% endif %}
+        target: !input switch_light
+        message: Switch light
           
 ##################################
 #
