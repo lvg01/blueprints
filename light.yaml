@@ -14,9 +14,8 @@ blueprint:
       name: Switch light
       description: The switch builtin green LED
       selector:
-        target:
-          entity:
-            domain: light
+        entity:
+          domain: light
 
 trigger:
   - platform: state
