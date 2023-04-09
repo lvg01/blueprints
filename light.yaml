@@ -29,12 +29,12 @@ action:
   - choose:
     - conditon: trigger
       id: switch_relay
-    sequence:
-      service: >
-        {% if is_states('var_switch_relay', 'on') %}
-          light.turn_on
-        {% else %}
-          light.turn_off
-        {% endif %}
-      target: !input switch_light
-      message: Switch light
+      sequence:
+        service: >
+          {% if is_states('var_switch_relay', 'on') %}
+            light.turn_on
+          {% else %}
+            light.turn_off
+          {% endif %}
+        target: !input switch_light
+        message: Switch light
