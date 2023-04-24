@@ -16,7 +16,14 @@ blueprint:
       selector:
         entity:
           domain: light
-
+    switch_button:
+      name: Switch button
+      description: The switch builtin push button
+      selector:
+        entity:
+          domain: switch
+          device_class: input
+          
 trigger_variables:
   var_switch_relay: !input switch_relay
   
