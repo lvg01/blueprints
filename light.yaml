@@ -21,8 +21,8 @@ blueprint:
       description: The switch builtin push button
       selector:
         entity:
-          domain: switch
-          device_class: input
+          domain: sensor
+          @device_class: input
           
 trigger_variables:
   var_switch_relay: !input switch_relay
