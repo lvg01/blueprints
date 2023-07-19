@@ -22,7 +22,7 @@ blueprint:
       selector:
         entity:
           domain: sensor
-          #device_class: input
+#device_class: input
           
 trigger_variables:
   var_switch_relay: !input switch_relay
