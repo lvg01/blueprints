@@ -26,12 +26,15 @@ blueprint:
           
 trigger_variables:
   var_switch_relay: !input switch_relay
+  var_switch_button: !input switch_button
   
 trigger:
   - platform: state
     entity_id: !input switch_relay
     id: switch_relay
-
+  - platform: state
+    entity_id: !input switch_button
+    id: switch_button
 action:
   - choose:
     - conditon: trigger
@@ -39,6 +42,17 @@ action:
       sequence:
         service: >
           {% if is_states('var_switch_relay', 'on') %}
+            light.turn_on
+          {% else %}
+            light.turn_off
+          {% endif %}
+        target: !input switch_light
+        message: Switch ligt
+    - conditon: trigger
+      id: switch_button
+      sequence:
+        service: >
+          {% if is_states('var_switch_button', 'on') %}
             light.turn_on
           {% else %}
             light.turn_off
