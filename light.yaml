@@ -35,11 +35,11 @@ trigger:
   #  entity_id: !input switch_button
   #  id: switch_button
 action:
-  - service: >
-      {% if trigger.to_state.state == 'on' %}
-        light.turn_on
-      {% else %}
-        light.turn_off
-      {% endif %}
-    target: !input switch_light
-    message: Switch light on/off based on relay state
+  service: >
+    {% if trigger.to_state.state == 'on' %}
+      light.turn_on
+    {% else %}
+      light.turn_off
+    {% endif %}
+  target: !input switch_light
+  message: Switch light on/off based on relay state
