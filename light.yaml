@@ -11,7 +11,7 @@ blueprint:
           domain: switch
           device_class: outlet
     switch_light:
-      name: Switch light
+      name: Switch builtin LED
       description: The switch builtin green LED
       selector:
         entity:
@@ -31,15 +31,15 @@ trigger:
   - platform: state
     entity_id: !input switch_relay
     id: switch_relay
-  - platform: state
-    entity_id: !input switch_button
-    id: switch_button
+  #- platform: state
+  #  entity_id: !input switch_button
+  #  id: switch_button
 action:
   - service: >
-      {% if is_states('var_switch_relay', 'on') %}
+      {% if trigger.to_state.state == 'on' %}
         light.turn_on
       {% else %}
         light.turn_off
       {% endif %}
     target: !input switch_light
-    message: Switch ligt
+    message: Switch light on/off based on relay state
